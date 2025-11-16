@@ -17,4 +17,8 @@ push all code to remote origin
 play with route extensions ex. /hello, / , hello/2, /xyz
 order of routes matter a lot
 install Postman app and make a workspace/collection > test api call
-write logic to handle GET,POST,PATCH,DELETE API CALLS snd test them on postman
+write logic to handle GET,POST,PATCH,DELETE API CALLS and test them on postman
+explore routing and use of ?, +, () , * in the routes
+use of regex in routes /a/ ,/.*fly$/
+reading the query params in routes
+reading the dynamic routes
