@@ -12,7 +12,7 @@ app.get("/user",(req,res,next) => {
     next();
 },
 (req,res,next) => {
-    res.send("sokome1 ashio kidda");
+    res.send("sokome1.5 ashio kidda");
     next();
 });
 
