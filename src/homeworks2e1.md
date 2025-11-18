@@ -22,3 +22,9 @@ explore routing and use of ?, +, () , * in the routes
 use of regex in routes /a/ ,/.*fly$/
 reading the query params in routes
 reading the dynamic routes
+
+//hws2e5
+multiple route handlers
+next()
+next function and errors along with res.send
+app.use("/route",rh1,rh2,rh3);
