@@ -28,3 +28,13 @@ multiple route handlers
 next()
 next function and errors along with res.send
 app.use("/route",rh1,rh2,rh3);
+
+
+//s2e6
+
+
+
+
+
+//s2e7
+JS object vs JSON (difference)
