@@ -1,150 +1,181 @@
 const express = require("express");
 const connectDB = require("./config/database");
-const User = require("./models/user");
-const bcrypt = require("bcrypt");
-const { validateSignUpData } = require("./utils/validation")
+//const User = require("./models/user");
+//const bcrypt = require("bcrypt");
+//const { validateSignUpData } = require("./utils/validation")
 const app = express();
+const jwt = require("jsonwebtoken");
+//const {userAuth} = require("./middlewares/auth");
 const cookieParser = require("cookie-parser");
 app.use(express.json());
 app.use(cookieParser());
 
-app.post("/signup", async (req,res) => {
-//creating a new instance of a user model
-    try { 
-        validateSignUpData(req); 
-        const { firstName,lastName,emailId,password } = req.body;
-    //console.log(req.body)
-    const passwordhash = await bcrypt.hash(password,10);
+// app.post("/signup", async (req,res) => {
+// //creating a new instance of a user model
+//     try { 
+//         validateSignUpData(req); 
+//         const { firstName,lastName,emailId,password } = req.body;
+//     //console.log(req.body)
+//     const passwordhash = await bcrypt.hash(password,10);
        
-  const user =  new User({
-    firstName, lastName,emailId,password:passwordhash,
-  });
+//   const user =  new User({
+//     firstName, lastName,emailId,password:passwordhash,
+//   });
 
      
-             await user.save();
-       res.send("user added successfully!");
+//              await user.save();
+//        res.send("user added successfully!");
 
-        }
-        catch (err) {
-            res.status(400).send("error saving user" + err.message);
-        }
-
-    //    await user.save();
-    //    res.send("user added successfully!");
-
-
- });
-
-//  app.post("/login", async(req,res) => {
-
-//     try{
-//         const {emailId,password } = req.body;
-
-//         const user = await User.findOne({emailId: emailId});
-//         if(!user){
-//             throw new Error("invalid credentials");
+//         }
+//         catch (err) {
+//             res.status(400).send("error saving user" + err.message);
 //         }
 
-//             const ispasswordValid = await bcrypt.compare(password,user.password);
+//     //    await user.save();
+//     //    res.send("user added successfully!");
 
-//             if(ispasswordValid){
+
+//  });
+
+// //  app.post("/login", async(req,res) => {
+
+// //     try{
+// //         const {emailId,password } = req.body;
+
+// //         const user = await User.findOne({emailId: emailId});
+// //         if(!user){
+// //             throw new Error("invalid credentials");
+// //         }
+
+// //             const ispasswordValid = await bcrypt.compare(password,user.password);
+
+// //             if(ispasswordValid){
                
-//                 res.cookie("token","alldidaldu"); 
-//                 res.send("login successful!!");
-//             }
-//             else {
-//                 throw new Error("Invalid credentials");
-//             }
+// //                 res.cookie("token","alldidaldu"); 
+// //                 res.send("login successful!!");
+// //             }
+// //             else {
+// //                 throw new Error("Invalid credentials");
+// //             }
         
 
+// //     }
+// //     catch (err){
+// //         res.status(400).send("error: " + err.message);
+// //     }
+// app.post("/login", async (req, res) => {
+//     try {
+//         const { emailId, password } = req.body;
+
+//         const user = await User.findOne({ emailId });
+//         if (!user) {
+//             throw new Error("Invalid credentials");
+//         }
+
+//         const ispasswordValid = await bcrypt.compare(password, user.password);
+//         if (!ispasswordValid) {
+//             throw new Error("Invalid credentials");
+//         }
+
+//         // Generate JWT
+//         const token = jwt.sign(
+//             { userId: user._id },
+//             "devtinder@123",
+//             { expiresIn: "1d" }
+//         );
+
+//         res.cookie("token", token, {
+//             httpOnly: true,
+//             sameSite: "lax",
+//         });
+
+//         return res.send("login successful!!");
 //     }
-//     catch (err){
-//         res.status(400).send("error: " + err.message);
+//     catch (err) {
+//         return res.status(400).send("error: " + err.message);
 //     }
+// });
+
+
+
+
+//  app.get("/feed",async (req,res) =>{
+
+//     const useremail = req.body.emailId;
+
+//     try{
+//         const users = await User.find({});
+//         res.send(users);
+//     } catch (err) {
+//         res.status(400).send("something went wrong ");
+//     }
+
 //  });
-app.post("/login", async(req,res) => {
-    try{
-        const { emailId, password } = req.body;
 
-       
-
-        const user = await User.findOne({ emailId });
-       
-
-        if(!user){
-            throw new Error("invalid credentials");
-        }
-
-       
-
-        const ispasswordValid = await bcrypt.compare(password, user.password);
-       
-
-        if(ispasswordValid){
-            res.cookie("token","alldidaldu"); 
-            return res.send("login successful!!");
-        }
-
-        throw new Error("Password incorrect");
-
-    }
-    catch (err){
-        return res.status(400).send("error: " + err.message);
-    }
-});
+//  app.get("/profile", userAuth,async (req,res) => {
+//    try{ const user = req.user;
+//     if(!user){
+//         throw new Error("user not exists");
+//     }
 
 
 
+//    res.send(user);
+// }
+// catch (err){
+//     res.status(400).send("Error" + err.message);
+// }
+// //    // const cookies = req.cookies;
+// //     console.log(cookies);
+// //     res.send("reading cookie");
+//  });
 
- app.get("/feed",async (req,res) =>{
-
-    const useremail = req.body.emailId;
-
-    try{
-        const users = await User.find({});
-        res.send(users);
-    } catch (err) {
-        res.status(400).send("something went wrong ");
-    }
-
- });
-
- app.get("/profile", async (req,res) => {
-    const cookies = req.cookies;
-    console.log("cookies");
-    res.send("reading cookies");
- })
-
-app.delete("/deluser", async (req,res) => {
-    const userId = req.body.userId;
+// app.delete("/deluser", async (req,res) => {
+//     const userId = req.body.userId;
 
     
-    try{
+//     try{
 
-        const user = await User.findByIdAndDelete(userId);
+//         const user = await User.findByIdAndDelete(userId);
 
-        res.send("user delete successfully");
-    }
-    catch (err) {
-        res.status(400).send("something went wrong");
-    }
+//         res.send("user delete successfully");
+//     }
+//     catch (err) {
+//         res.status(400).send("something went wrong");
+//     }
 
-});
-app.patch("/upduser", async (req,res) => {
-    const userId = req.body.userId;
-const data = req.body;
+// });
+// app.patch("/upduser", async (req,res) => {
+//     const userId = req.body.userId;
+// const data = req.body;
     
-    try{
+//     try{
 
-        const user = await User.findByIdAndUpdate({_id:userId},data);
+//         const user = await User.findByIdAndUpdate({_id:userId},data);
 
-        res.send("user updated successfully");
-    }
-    catch (err) {
-        res.status(400).send("something went wrong");
-    }
+//         res.send("user updated successfully");
+//     }
+//     catch (err) {
+//         res.status(400).send("something went wrong");
+//     }
 
-});
+// });
+
+
+const authRouter = require("./routes/auth");
+const profileRouter = require("./routes/profile");
+const requestRouter = require("./routes/request");
+
+app.use("/",authRouter);
+app.use("/",profileRouter);
+app.use("/",requestRouter);
+
+
+
+
+
+
+
 
 
 
