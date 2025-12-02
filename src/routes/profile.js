@@ -10,7 +10,7 @@ profileRouter.get("/profile", userAuth,async (req,res) => {
    try{ 
     const user = req.user;
     if(!user){
-        throw new Error("user not exists");
+        throw new Error("user not exists"); 
     }
 
    res.send(user);
